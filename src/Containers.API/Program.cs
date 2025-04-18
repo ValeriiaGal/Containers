@@ -80,7 +80,7 @@ app.MapPost("/api/containers", (IContainerService containerService, Container co
 });
 
 
-app.MapPost("/api/containers",(IContainerService containerService, HttpClient request) =>
+app.MapPost("/api/containers", async (IContainerService containerService, HttpRequest request) =>
 {
     using (var reader = new StreamReader(request.Body))
     {
@@ -92,7 +92,7 @@ app.MapPost("/api/containers",(IContainerService containerService, HttpClient re
         {
             var options = new JsonSerializerOptions
             {
-                PropertyNameCaseInsensitive = true;
+                PropertyNameCaseInsensitive = true,
             };
             var containerInfo = JsonSerializer.Deserialize<ShortContainerInfo>(json["typeValue"],)
         }
