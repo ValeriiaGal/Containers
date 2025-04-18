@@ -94,7 +94,7 @@ app.MapPost("/api/containers", async (IContainerService containerService, HttpRe
             {
                 PropertyNameCaseInsensitive = true,
             };
-            var containerInfo = JsonSerializer.Deserialize<ShortContainerInfo>(json["typeValue"],)
+            var containerInfo = JsonSerializer.Deserialize<ShortContainerInfo>(json["typeValue"],
         }
     }
     {
