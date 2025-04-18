@@ -1,6 +1,5 @@
 ﻿using System.Runtime.InteropServices.Marshalling;
 using Containers.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Data.SqlClient;
 
 namespace Containers.Application;
@@ -48,5 +47,27 @@ public class ContainerService : IContainerService
                 reader.Close();
             }
         }
+
+        return containers;
+    }
+
+    public bool Create(Container container)
+    {
+        const string insertString  = 
+            "INSERT INTO Containers(ContainerTypeId, IsHazardious, Name) VALUES (@ContainerTypeId, @IsHazardious, @Name)";
+            int countRowsAdd = -1;
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                SqlCommand command = new SqlCommand(insertString, connection);
+
+                command.Parameters.AddWithValue("@ContainerTypeId", container.ContainerTypeId);
+                command.Parameters.AddWithValue("@IsHazardious", container.IsHazardious);
+                command.Parameters.AddWithValue("@Name", container.Name);
+                
+                connection.Open();
+                countRowsAdd = command.ExecuteNonQuery();
+            }
+
+            return countRowsAdd != -1;
     }
 }
